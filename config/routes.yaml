@@ -1,0 +1,8 @@
+PublicController:
+    path: /
+    controller: App\Controller\PublicController::home
+
+admin:
+    path: /admin/
+    controller: App\Controller\Admin\AdminController::home
+    methods: GET|POST
