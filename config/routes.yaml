@@ -16,3 +16,8 @@ app_logout:
     path: /logout/
     controller: App\Controller\SecurityController::logout
     methods: GET|POST
+
+utilisateur_delete:
+    path: /admin/utilisateur_delete{id}
+    controller: App\Controller\Admin\AdminController::utilisateur_delete
+    methods: GET|POST|DELETE

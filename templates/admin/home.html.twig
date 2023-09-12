@@ -1,2 +1,35 @@
-<h1>Ceci est un secret</h1>
+<h1>Bonjour {{ admin }}</h1>
+    {% for message in app.flashes('success') %}
+        <div>{{message}}</div>
+    {% endfor %}
 <a href="{{ path('app_logout') }}">Déconnexion</a>
+
+
+        <h3>Listing des utilisateurs</h3>
+            <table>
+            {% for utilisateur in utilisateurs %}
+                <tr>
+                    <td>{{utilisateur.username}}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <td>
+                        <form method="post" action="{{ path('utilisateur_delete', {id: utilisateur.id})}}" style="display:inline-block" onsubmit="return confirm('Etes vous vraiment sûr?')">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ utilisateur.id)}}">
+                        <button class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+            {% endfor %} 
+            </table>
+
+        {% if is_granted('ROLE_ADMIN') %}
+        <h3>Création d'un utilisateur</h3>        
+            {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
+                <div>{{form_row(form.username, {'label': 'nom d\'utilisateur'})}}</div>
+                <div>{{form_row(form.password, {'label': 'Mot de passe', 'attr': {'id': 'utilisateur_password'}})}}</div>
+                <label for="verifpass">Retapez le mot de passe</label>
+                <input type="password" id="verifpass" required>
+                {{ form_widget(form) }}
+                <button>Ajouter</button>
+            {{ form_end(form) }}
+        {% endif %}
